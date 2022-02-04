@@ -1,2 +1,2 @@
-# ML-Papers-Simplified
-Simple explanations of ML research papers
+# ML-Papers-Intuitions
+Intuitive and simple explanations of ML research papers
