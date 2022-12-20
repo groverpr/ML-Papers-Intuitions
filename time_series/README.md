@@ -16,7 +16,7 @@
 
 > **One result worth mentioning:** 
 
-    3% over M4 competetion winner on Kaggle with DL/TS hybrid. (althought I didn't )
+    3% over M4 competetion winner on Kaggle with DL/TS hybrid.
     
 
 > Model Architecture            | Comparisons of statistical vs hybrid vs N-BEATS on M4 competetion data
