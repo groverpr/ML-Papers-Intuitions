@@ -11,17 +11,36 @@
     They specifically look into univariate time series forecasting problem and show considerable improvements over state of the art (at that time) hybrid approaches.
 
 > **Key idea:** 
-    The basic building block of their architecture is a double residual stack. In traditional residual blocks, we add input of some of the previous layers to the output of current layer, and pass the combined result to the next layer. This helps in better training of deep architectures, by allowing gradients to directly flow through several layers (if I have layer 1 output going at layer 10, their gradients are directly connected with residual connection, while without residual connection layer 1 is connected to layer 10 with long path of 10->9->8 ... ->1. The authors of this paper build upon the idea of residuals, specifically introducing "double residual branching". Each layer of their model has 1) predicted projection of past data ($\hat{x_l}) and 2) future foreast ($\hat{y_l}$). The residuals connections also run through these two branches: 1) past projection branch where they take the difference of layer input (${x_l}) with layer output (\hat$x_l$), and 2) future forecast branch where they add outputs ($\hat{y_l}$) from all layers in a stack. Multiple such stacks are trained and combined to generate a final prediction, as shown in the figure below. One more key contribution of authors is combining the output components ($\hat{y_l}$) in a fashion such that it can be broken down into trend and seasonality components by introducing monotonicity and periodicity in stack level outputs.       
+    The basic building block of their architecture is a double residual stack. In traditional residual blocks, we add input of some of the previous layers to the output of current layer, and pass the combined result to the next layer. This helps in better training of deep architectures, by allowing gradients to directly flow through several layers (if I have layer 1 output going at layer 10, their gradients are directly connected with residual connection, while without residual connection layer 1 is connected to layer 10 with long path of 10->9->8 ... ->1. The authors of this paper build upon the idea of residuals, specifically introducing "double residual branching". Each layer of their model has 1) predicted projection of past data ($\hat{x_l}$) and 2) future foreast ($\hat{y_l}$). The residuals connections run through these two branches: 1) past projection branch where they take the difference of layer input ($x_l$) with layer output ($\hat{x_l}$), and 2) future forecast branch where they add outputs ($\hat{y_l}$) from all layers in a stack. Multiple such stacks are trained and combined to generate a final prediction, as shown in the figure below. One more key contribution of authors is combining the output components ($\hat{y_l}$) in a fashion such that it can be broken down into trend and seasonality components by introducing monotonicity (trend) and periodicity in stack level outputs. They introduce trend and seasonality by projecting stack level outputs to pre-defined basis functions. One can use different basis function for different  blocks or stacks.       
     
 
-> **One result worth mentioning:** 
-
+> **One result worth mentioning:**
     3% over M4 competetion winner on Kaggle with DL/TS hybrid.
     
 
 > Model Architecture            | Comparisons of statistical vs hybrid vs N-BEATS on M4 competetion data
 > :-------------------------:|:-------------------------:
-> <img src="images/nbeats.png" width="600"/>  |  <img src="images/nbeats-results.png" width="600"/>
+> <img src="images/nbeats.png" width="600"/>  |  <img src="images/nbeats-results.png" width="400"/>
+
+
+#### [N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting](https://arxiv.org/pdf/2201.12886.pdf)
+
+> *2022 | Authors: Cristian Challu, Kin G. Olivares, Boris N. Oreshkin, Federico Garza, Max Mergenthaler-Canseco, Artur Dubrawski*  
+
+> **Brief background:** 
+    N-BEATS paaper challenged that DL architectures with dual residual connection and output projection to trend and seasonality basis functions can perform better than hybrid DL + Statistical models. NHiTS is built on top of N-BEATS architecture and add 2 variations in architecture that helps it work better when forecast horizons are long. 
+
+
+> **Key idea:** 
+    The N-HiTS architecture is built upon N-BEATS architecture (summarized above), i.e. uses stacks, blocks, dual residual connections and projection to basis functions. Two additional ideas they introduce that make their architecture work well in long horizon settings and improve computations efficiency are 1) **multi-rate data sampling** that helps with memory reduction and computations efficiency, and 2) **hierarchical interpolation**, that hepls with long horizon forecasting. Multi-rate sampling idea is simply to use differrent sizes of maxpooling kernels (borroed from CNNs). With bigger kernel window, network would get opportunity to focus on low frequency components as larger frequency ones are filtered out. Different kernel sizes allow filtering in/out different frequencies when we deal with time series data. Hierarchical interpolation is simply stack level smoothening. Each stack gives outputs that are also time series of stack specific frequency. One can smoothen those stack outputs using diffeerent interpolation methods (linear, cubic, nearest neighor etc.) and at different levels of smoothening. The authors propose coupling smoothening with kernal sizes, specifically, smooth more when kernel sizes are also high, i.e. aggresively smooth less granular signals. This heirarchical smoothening helps network to deal with the issue of expansion in weights as horizon increases as one does not need to produce H dimensional output (H is forecast horizon) from each stack. One can produce H/D dimensional output where D decides amount of smoothening.  
+
+
+> **One result worth mentioning:** 
+    The authors show that as horizon grows, the performance of N-BEATS decreases and computational cost increases quadratically, which does not happen for N-HiTS. Similarly, comparing with Transformer based (2019-2022), RNN based (2017) as well as Auto-Arima (2008), it beats SOTA (at that time) for long horizon by 11% on MAE and 17% on MSE, has 26x less parameters and 45x faster than 2nd best alternative in terms of compute. 
+
+> Model Architecture            | Comparisons of NHiTS for DL competitors and Arima
+> :-------------------------:|:-------------------------:
+> <img src="images/nhits-arch.png" width="700"/>  |  <img src="images/nhits-perf.png" width="600"/>
 
 
 
