@@ -60,8 +60,9 @@
     An obvious benefits of convolution over recurrent network for sequences is parallelism (no need to wait for generating output upto t-1 to get an output for t). 
     It does have ovbious problems too, including need of entire input sequence during infernece while one can pre-compute hidden states and pass only current input with RNNs. Focussing on results from the experiments, the key result to focus from my perspective is that compared to vanilla implementations (not SOTA, vanilla) of LSTM, GRU and RNN, TCN reaches higher performance faster on a number of tasks that authors tried. 
 
-> Model Architecture         
-> :-------------------------:
-> <img src="images/tcn-perf.png" width="700"/> 
-<br/><br/>
+> Model Architecture            | Comparisons on Sequential MNIST data
+> :-------------------------:|:-------------------------:
+> <img src="images/tcn-arch.png" width="600"/>  |  <img src="images/tcn-perf.png" width="400"/>
+<br/><br/>   
+   
 
