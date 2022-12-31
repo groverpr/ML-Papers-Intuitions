@@ -83,7 +83,7 @@
 
 > Model Architecture            
 > :-------------------------:
-> <img src="images/tfn-arch.png" width="600"/> 
+> <img src="images/tfn-arch.png" width="800"/> 
 <br/><br/>   
 
    
