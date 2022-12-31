@@ -64,5 +64,27 @@
 > :-------------------------:|:-------------------------:
 > <img src="images/tcn-arch.png" width="600"/>  |  <img src="images/tcn-perf.png" width="400"/>
 <br/><br/>   
+  
+
+#### [Temporal Fusion Transformers for Interpretable Multi-horizon Time Series Forecasting](https://arxiv.org/pdf/1912.09363.pdf)
+
+> *2020 | Authors: Bryan Lima,1, Sercan O. Arık, Nicolas Loeffb, Tomas Pfister*  
+
+> **Brief background:** 
+    Multi-horizon forecasting is a useful problem to solve as it allows us to plan ahead at multiple steps in future. An example is optimizing retail inventory for entire season. Common problems in forecasting framework can leverage static features (that remain constant across time) as well as time varying past and future covariates (example of future: holidays). An ideal DL framework should allow training with all types of available features, with no prior domain knowledge and yet produce accurate forecasts with interpretability. Limitations of existing literature (at that time) included 1) network not being able to handle all types of features including static, past, future covariates, and 2) lack of interpretability in multi-feature setting.
+
+
+> **Key idea:** 
+    In this paper, the authors propose a transformer based architecture for time series forecasting. The architecture has several interesting components that tackle limitations in existing approaches. The key components include **A)** using static features as context vectors that help in learning the wiring and magnitude of residual connections, gating, variable weights, **B)** use of gating mechanism to remove less useful or to amplify more useful connections or features, **C)** variable selection step that basically learns an importance weight for each variable at each time step using static and time dependent covaraites, **(D)** LSTM encoder from past covariates and then LSTM decoder that predicts the future steps of encoder while taking observed future covariates as inputs, **(E) self attention layer that attends to different events across the time helping network with both interpretability and long horizon forecasting. At the end, the predictions happen at multiple quantile levels for each time step, and an average quantile loss (basically quantile regression) is used.
+    All these components are highlighted in red, in the architecture diagram below. 
+
+> **One result worth mentioning:** 
+    On a wide range of multi-horizon forecasting tasks, the Transformer Fusion Network outperforms DeepAR, Exponential Smoothening, ARIMA and other sequence modeling based methods. For median forecasts, TFT yields 7% lower P50 and 9% lower P90 losses on average compared to the next best model. Ablation analysis shows high importance of self attention. 
+
+> Model Architecture            
+> :-------------------------:
+> <img src="images/tfn-arch.png" width="600"/> 
+<br/><br/>   
+
    
 
